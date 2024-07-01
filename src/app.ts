@@ -16,5 +16,5 @@ app.get('/', (req, res) => {
 })
 
 console.log('app is run')
-console.log(config.database_url)
+
 export default app 
