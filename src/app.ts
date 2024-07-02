@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import config from './app/config'
+import { studentRoutes } from './app/modules/student/student.routes'
 const app = express()
 const port = 3000
 
@@ -9,10 +10,20 @@ app.use(express.json())
 app.use(cors())
 
 
+// application routes.............
+// api/v1/students/create-student 
+
+app.use("/api/v1/students", studentRoutes) 
+
+
+
+
+
+
 
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Hello World! mongoose server...')
 })
 
 console.log('app is run')
