@@ -8,6 +8,7 @@ const createStudentIntoDB = async (studentData: TStudent ) => {
      }
 
      
+     
     
     const result = await Student.create(studentData) //build in static methods
 
@@ -41,9 +42,19 @@ const studentSingleData = async (id: string ) => {
 }
 
 
+const deletedStudentFromDB = async (id: string) => {
+      const result = await Student.updateOne({id: id}, {isDeleted: true})
+      return result
+}
+
+
+
+
+
 export const studentService = {
     createStudentIntoDB,
     getAllstudentFromDB,
-    studentSingleData
+    studentSingleData,
+    deletedStudentFromDB
 }
 

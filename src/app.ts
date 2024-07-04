@@ -26,6 +26,6 @@ app.get('/', (req, res) => {
   res.send('Hello World! mongoose server...')
 })
 
-console.log('app is run')
+// console.log('app is run')
 
 export default app 

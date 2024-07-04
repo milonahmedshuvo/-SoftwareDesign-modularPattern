@@ -1,5 +1,8 @@
 import { Schema, model, connect } from 'mongoose';
 import {  StudentModel, TGuardian, TLocalGuardian, TStudent, TUserName } from './student.iterface';
+import bcrypt from "bcrypt"
+import config from '../../config';
+import { boolean } from 'joi';
 
 
 const userNameSchema = new Schema <TUserName> ({
@@ -42,6 +45,7 @@ const localGuardianSchema = new Schema <TLocalGuardian> ({
 // creating main schema.......
 const studentSchema = new Schema < TStudent, StudentModel > ({
     id: {type: String, required: true, unique: true},
+    password: {type: String, required: true},
     name:{
         type: userNameSchema,
         required: [true, 'vai tumar name nai'],
@@ -77,8 +81,71 @@ const studentSchema = new Schema < TStudent, StudentModel > ({
         type: String,
         enum: ['active', 'blocked'],
         default: "active"
-    }    
+    },
+    isDeleted : {
+        type: Boolean,
+        default: false
+    }
+},
+{
+    // je json ta asbe sta virtuals true kore daw 
+    toJSON: {
+        virtuals: true
+    }
+}
+)
+
+
+// creating virtule mongoose 
+studentSchema.virtual("fullName").get(function(){
+    return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`
 })
+
+
+
+
+
+// creating pre middleware 
+studentSchema.pre("save", async function(next){
+    // console.log(this, "pre middleware i will save data")
+    const user= this
+  user.password= await bcrypt.hash(user.password, Number(config.bcrypt_seltsRounds))
+  console.log(config.bcrypt_seltsRounds)
+   next()
+})
+
+
+
+// creating next middleware 
+studentSchema.post("save", async function(document, next){
+    
+    // console.log("ducument", document)
+    document.password = "security parpose not save password"
+    next()
+})
+
+
+// query middleware 
+studentSchema.pre('find', async  function (next){
+    this.find({isDeleted: {$ne: true }})
+    next()
+})
+
+
+studentSchema.pre('findOne', async  function (next){
+    this.findOne({isDeleted: {$ne: true }})
+    next()
+})
+
+
+
+
+
+
+
+
+
+
 
 // creating an instence methods 
 // studentSchema.methods.isUserExists = async function (id: string) {

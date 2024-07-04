@@ -40,6 +40,7 @@ const localGuardianValidationSchema = Joi.object({
 // Joi schema for Student
 const studentValidationSchema = Joi.object({
     id: Joi.string().required(),
+    password: Joi.string().required(),
     name: userNameValidationSchema.required().messages({
         'any.required': 'vai tumar name nai'
     }),
@@ -63,7 +64,8 @@ const studentValidationSchema = Joi.object({
     guardian: guardianValidationSchema.required(),
     localGuardian: localGuardianValidationSchema.required(),
     profileImg: Joi.string().optional(),
-    isActive: Joi.string().valid('active', 'blocked').default('active')
+    isActive: Joi.string().valid('active', 'blocked').default('active'),
+    isDeleted: Joi.string().optional()
 });
 
 
