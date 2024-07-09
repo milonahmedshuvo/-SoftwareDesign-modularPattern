@@ -1,7 +1,6 @@
 import { Schema, model, connect } from 'mongoose';
 import {  StudentModel, TGuardian, TLocalGuardian, TStudent, TUserName } from './student.iterface';
-import bcrypt from "bcrypt"
-import config from '../../config';
+
 
 
 
@@ -46,7 +45,6 @@ const localGuardianSchema = new Schema <TLocalGuardian> ({
 const studentSchema = new Schema < TStudent, StudentModel > ({
     id: {type: String, required: true, unique: true},
     user: { type: Schema.Types.ObjectId, required:[true,"user object is required" ] , unique: true },
-    password: {type: String, required: true},
     name:{
         type: userNameSchema,
         required: [true, 'vai tumar name nai'],
@@ -78,10 +76,10 @@ const studentSchema = new Schema < TStudent, StudentModel > ({
         required: true
     },
     profileImg: {type: String },
-    isDeleted : {
-        type: Boolean,
-        default: false
-    }
+    // isDeleted : {
+    //     type: Boolean,
+    //     default: false
+    // }
 },
 {
     // je json ta asbe sta virtuals true kore daw 
@@ -99,28 +97,6 @@ studentSchema.virtual("fullName").get(function(){
 
 
 
-
-
-// creating pre middleware 
-studentSchema.pre("save", async function(next){
-    // console.log(this, "pre middleware i will save data")
-    const user= this
-  user.password= await bcrypt.hash(user.password, Number(config.bcrypt_seltsRounds))
-  console.log(config.bcrypt_seltsRounds)
-   next()
-})
-
-
-
-// creating next middleware 
-studentSchema.post("save", async function(document, next){
-    
-    // console.log("ducument", document)
-    document.password = "security parpose not save password"
-    next()
-})
-
-
 // query middleware 
 studentSchema.pre('find', async  function (next){
     this.find({isDeleted: {$ne: true }})
@@ -132,13 +108,6 @@ studentSchema.pre('findOne', async  function (next){
     this.findOne({isDeleted: {$ne: true }})
     next()
 })
-
-
-
-
-
-
-
 
 
 

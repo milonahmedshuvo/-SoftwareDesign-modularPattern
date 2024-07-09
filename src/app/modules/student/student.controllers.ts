@@ -1,4 +1,4 @@
-import { Request, Response, response } from "express";
+import { NextFunction, Request, Response, response } from "express";
 import { studentService } from "./student.service";
 // import studentValidationSchema from "./student.validation";
 
@@ -6,7 +6,7 @@ import { studentService } from "./student.service";
 
 
 
-const getAllstudent = async (req: Request, res:Response) => {
+const getAllstudent = async (req: Request, res:Response, next:NextFunction) => {
 
       try{
         const result = await studentService.getAllstudentFromDB()
@@ -16,19 +16,20 @@ const getAllstudent = async (req: Request, res:Response) => {
           data: result
         })
 
-      }catch(err:any) {
+      }catch(err) {
         console.log(err)
-        res.status(500).json({
-          success: "false",
-          message: err.message || "something went wrong",
-          error: err
-        })
+        // res.status(500).json({
+        //   success: "false",
+        //   message: err.message || "something went wrong",
+        //   error: err
+        // })
+        next(err)
       }
 }
 
 
 
-const studentSingleData =async (req: Request, res: Response) => {
+const studentSingleData =async (req: Request, res: Response, next:NextFunction) => {
       try{
         const {studentId} = req.params
       const result = await studentService.studentSingleData(studentId)
@@ -38,18 +39,19 @@ const studentSingleData =async (req: Request, res: Response) => {
         data: result
       })
 
-      }catch(err: any){
-        res.status(500).json({
-          success: "false",
-          message: err.message || "someting wrong single data",
-          error: err
-        })
+      }catch(err) {
+        // res.status(500).json({
+        //   success: "false",
+        //   message: err.message || "someting wrong single data",
+        //   error: err
+        // })
+        next(err)
       }
 }
 
 
 
-const deleteStudent = async (req:Request, res: Response) => {
+const deleteStudent = async (req:Request, res: Response, next:NextFunction) => {
       try{
        const {userId} = req.params
        const result = await studentService.deletedStudentFromDB(userId)
@@ -58,14 +60,16 @@ const deleteStudent = async (req:Request, res: Response) => {
         message: "student succesfully deleted",
         data: result
        })
-      }catch(error:any){
-          res.status(5000).json({
-            success: "false",
-            message: error.message || "something wrong",
-            error: error
-          })
+      }catch(err){
+          // res.status(5000).json({
+          //   success: "false",
+          //   message: error.message || "something wrong",
+          //   error: error
+          // })
+          next(err)
       }
 }
+
 
 
 

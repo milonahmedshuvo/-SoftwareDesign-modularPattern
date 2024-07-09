@@ -18,7 +18,7 @@ const createStudentIntoDB = async ( password:string, studentData: TStudent ) => 
       
     //  set user role and id
      userData.role = "student"
-     userData.id = "135658373"
+     userData.id = "1787665785555"
      
     //  create a user 
     const newUser = await User.create(userData) //build in static methods
@@ -42,11 +42,18 @@ const createStudentIntoDB = async ( password:string, studentData: TStudent ) => 
     //   }   
     
     // const result = student.save() //this is instence methods 
-
-
-
-    return newStudent
+    return  newStudent
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { NextFunction, Request, Response } from 'express'
 import cors from 'cors'
 import config from './app/config'
 import { studentRoutes } from './app/modules/student/student.routes'
@@ -16,6 +16,25 @@ app.use(cors())
 
 app.use("/api/v1/students", studentRoutes) 
 app.use("/api/v1/users", userRoutes) 
+
+
+
+
+
+
+// global error handalar 
+app.use((err:any, req:Request, res:Response, next:NextFunction) => {
+    
+  const statusCode = 500
+  const message = err.message || "something wrong"
+
+
+  res.status(statusCode).json({
+    success: "false and ata globar thke asse",
+    message: message,
+    error: err
+  })
+})
 
 
 
