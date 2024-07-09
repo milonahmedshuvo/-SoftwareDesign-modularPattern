@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import config from './app/config'
 import { studentRoutes } from './app/modules/student/student.routes'
+import { userRoutes } from './app/modules/user/user.routes'
 const app = express()
 const port = 3000
 
@@ -14,6 +15,7 @@ app.use(cors())
 // api/v1/students/create-student 
 
 app.use("/api/v1/students", studentRoutes) 
+app.use("/api/v1/users", userRoutes) 
 
 
 

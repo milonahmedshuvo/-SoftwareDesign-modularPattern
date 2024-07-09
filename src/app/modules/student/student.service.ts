@@ -1,35 +1,6 @@
-import { TStudent } from "./student.iterface";
 import { Student } from "./student.model";
 
-const createStudentIntoDB = async (studentData: TStudent ) => {
-    
-    if( await Student.isUserExists(studentData.id)){
-        throw new Error("you are already exists")
-     }
 
-     
-     
-    
-    const result = await Student.create(studentData) //build in static methods
-
-     
-
-
-
-
-    //this is instance 
-    // const student = new Student(studentData)
-
-    //   if(await student.isUserExists(studentData.id)){
-    //     throw new Error("you already exists in database")
-    //   }   
-    
-    // const result = student.save() //this is instence methods 
-
-
-
-    return result
-}
 
 const getAllstudentFromDB = async () => {
     const result = await Student.find()
@@ -52,7 +23,7 @@ const deletedStudentFromDB = async (id: string) => {
 
 
 export const studentService = {
-    createStudentIntoDB,
+    // createStudentIntoDB,
     getAllstudentFromDB,
     studentSingleData,
     deletedStudentFromDB

@@ -2,7 +2,7 @@ import { Schema, model, connect } from 'mongoose';
 import {  StudentModel, TGuardian, TLocalGuardian, TStudent, TUserName } from './student.iterface';
 import bcrypt from "bcrypt"
 import config from '../../config';
-import { boolean } from 'joi';
+
 
 
 const userNameSchema = new Schema <TUserName> ({
@@ -45,6 +45,7 @@ const localGuardianSchema = new Schema <TLocalGuardian> ({
 // creating main schema.......
 const studentSchema = new Schema < TStudent, StudentModel > ({
     id: {type: String, required: true, unique: true},
+    user: { type: Schema.Types.ObjectId, required:[true,"user object is required" ] , unique: true },
     password: {type: String, required: true},
     name:{
         type: userNameSchema,
@@ -77,11 +78,6 @@ const studentSchema = new Schema < TStudent, StudentModel > ({
         required: true
     },
     profileImg: {type: String },
-    isActive: {
-        type: String,
-        enum: ['active', 'blocked'],
-        default: "active"
-    },
     isDeleted : {
         type: Boolean,
         default: false
@@ -159,7 +155,7 @@ studentSchema.pre('findOne', async  function (next){
 // creating an static methods 
 studentSchema.statics.isUserExists= async function(id: string) {
     const userExists = await Student.findOne({id: id})
-    return userExists
+    return userExists;
 }
 
 
