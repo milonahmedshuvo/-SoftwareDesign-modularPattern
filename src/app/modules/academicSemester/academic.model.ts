@@ -40,6 +40,14 @@ const academicSemesterSchema = new Schema <TAcademicSemester> ({
 
 
 
+// use pre hook and middleware 
+academicSemesterSchema.pre("save", async function(next){
+    const isExistsSemester = await AcademicSemester.findOne({ year: this.year, name: this.name })
+
+    if(isExistsSemester){
+        throw new Error("This semester already exists this year")
+    }
+})
 
 
 // creating model and callection 
