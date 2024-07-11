@@ -1,5 +1,12 @@
 import { NextFunction, Request, Response } from "express"
 import { userService } from "./user.service"
+import sendResponse from "../../utils/sendResponse"
+
+
+
+
+
+
 
 const createStudent = async ( req:Request, res:Response, next:NextFunction ) => {
     
@@ -8,10 +15,14 @@ const createStudent = async ( req:Request, res:Response, next:NextFunction ) => 
       const { password, student:studentData } = req.body
 
       // data validation from client site by joi 
-    //   const {error, value } = studentValidationSchema.validate(studentData)
+      // const {error, value } = studentValidationSchema.validate(studentData)
       // console.log({error}, {value})
 
+      // zod data validation 
+      // const zodDataValidate =  studentZodValidationSchema.parse(studentData)
+
       const result = await userService.createStudentIntoDB(password, studentData)
+
 
     //   if(error){
     //     res.status(500).json({
@@ -21,12 +32,23 @@ const createStudent = async ( req:Request, res:Response, next:NextFunction ) => 
     //     })
     //   }
 
-      res.status(200).json({
-        success: "true",
-        message: "student create succesfully",
+
+
+
+      // res.status(200).json({
+      //   success: "true",
+      //   message: "student create succesfully",
+      //   data: result
+      // })
+
+      sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "student created succesfully",
         data: result
-      })
+      } )
      
+
 
     }catch(err){
         console.log(err)

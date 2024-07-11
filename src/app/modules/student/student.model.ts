@@ -25,19 +25,19 @@ const userNameSchema = new Schema <TUserName> ({
 })
 
 const guardianSchema = new Schema <TGuardian> ({
-        fatherName: {type: String},
-        fatherOccupation: {type: String},
-        fatherContactNo: {type: String},
-        matherName: {type: String},
-        matherOccupation: {type: String},
-        matherContactNo: {type: String}
+        fatherName: {type: String, required: true },
+        fatherOccupation: {type: String, required: true },
+        fatherContactNo: {type: String , required: true},
+        matherName: {type: String, required: true},
+        matherOccupation: {type: String, required: true},
+        matherContactNo: {type: String, required: true}
 })
 
 const localGuardianSchema = new Schema <TLocalGuardian> ({
-        name: {type: String},
-        occupation: {type: String},
-        contactNo: {type: String},
-        address: {type: String}
+        name: {type: String, required: true},
+        occupation: {type: String, required: true},
+        contactNo: {type: String, required: true},
+        address: {type: String, required: true}
 })
 
 
@@ -76,10 +76,10 @@ const studentSchema = new Schema < TStudent, StudentModel > ({
         required: true
     },
     profileImg: {type: String },
-    // isDeleted : {
-    //     type: Boolean,
-    //     default: false
-    // }
+    isDeleted : {
+        type: Boolean,
+        default: false
+    }
 },
 {
     // je json ta asbe sta virtuals true kore daw 

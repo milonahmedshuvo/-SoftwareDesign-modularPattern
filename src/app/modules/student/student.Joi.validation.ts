@@ -1,3 +1,4 @@
+
 import Joi from 'joi';
 
 
@@ -38,7 +39,7 @@ const localGuardianValidationSchema = Joi.object({
 });
 
 // Joi schema for Student
-const studentValidationSchema = Joi.object({
+const studentJoiValidationSchema = Joi.object({
     id: Joi.string().required(),
     password: Joi.string().required(),
     name: userNameValidationSchema.required().messages({
@@ -70,4 +71,4 @@ const studentValidationSchema = Joi.object({
 
 
 
-export default studentValidationSchema
+export default studentJoiValidationSchema;

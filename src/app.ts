@@ -38,6 +38,17 @@ app.use((err:any, req:Request, res:Response, next:NextFunction) => {
 
 
 
+// not found middleware 
+app.use( (req:Request, res:Response, next:NextFunction) => {
+
+  res.status(400).json({
+    success: 'false',
+    message: "not found page it",
+    error: ""
+  })
+})
+
+
 
 
 

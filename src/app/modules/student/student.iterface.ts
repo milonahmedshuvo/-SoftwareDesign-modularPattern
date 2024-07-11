@@ -2,7 +2,7 @@ import { Schema, model, connect, Model, Types } from 'mongoose';
 
 export type TUserName = {
     firstName: string;
-    middleName: string;
+    middleName?: string;
     lastName: string;
 }
 
@@ -25,7 +25,7 @@ export type TLocalGuardian = {
 
 export type TStudent = {
     id: string;
-    user: Types.ObjectId;
+    user?: Types.ObjectId;
     // password: string;
     name:TUserName; 
     gender: "male" | "female";
@@ -39,7 +39,7 @@ export type TStudent = {
     guardian: TGuardian;
     localGuardian: TLocalGuardian;
     profileImg?: string;
-    // isDeleted: boolean
+    isDeleted?: boolean
 }
 
 

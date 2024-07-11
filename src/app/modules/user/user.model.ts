@@ -6,7 +6,7 @@ import config from "../../config";
 
 
 export const userSchema = new Schema <TUser> ({
-    id: {type:String, required: true},
+    id: {type:String},
     password: { type: String, required: true },
     needsPasswordChange: { type: Boolean, default: true },
     role: { 

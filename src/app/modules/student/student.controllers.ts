@@ -1,31 +1,40 @@
-import { NextFunction, Request, Response, response } from "express";
+import { NextFunction, Request, RequestHandler, Response, response } from "express";
 import { studentService } from "./student.service";
+import catchAsync from "../../utils/catchAsync";
 // import studentValidationSchema from "./student.validation";
 
 
 
 
+const getAllstudent = catchAsync( async (req, res, next) => {
 
-const getAllstudent = async (req: Request, res:Response, next:NextFunction) => {
+  // try{
+    const result = await studentService.getAllstudentFromDB()
+    res.status(200).json({
+      success: "true",
+      message: "student is get succesfully",
+      data: result
+    })
 
-      try{
-        const result = await studentService.getAllstudentFromDB()
-        res.status(200).json({
-          success: "true",
-          message: "student is get succesfully",
-          data: result
-        })
+  // }catch(err) {
+  //   console.log(err)
+  //   // res.status(500).json({
+  //   //   success: "false",
+  //   //   message: err.message || "something went wrong",
+  //   //   error: err
+  //   // })
+  //   next(err)
+  // }
+  
+})
 
-      }catch(err) {
-        console.log(err)
-        // res.status(500).json({
-        //   success: "false",
-        //   message: err.message || "something went wrong",
-        //   error: err
-        // })
-        next(err)
-      }
-}
+
+
+
+
+
+
+
 
 
 
