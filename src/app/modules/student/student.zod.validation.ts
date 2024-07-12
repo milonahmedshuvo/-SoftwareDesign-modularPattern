@@ -50,6 +50,7 @@ const studentZodValidationSchema = z.object({
   })
 });
 
+
 export const studentValidations = {
   studentZodValidationSchema
 }

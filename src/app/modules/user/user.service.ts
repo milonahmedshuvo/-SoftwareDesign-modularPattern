@@ -4,6 +4,10 @@ import { TStudent } from "../student/student.iterface"
 import {  TUser } from "./user.interface"
 import { User } from "./user.model"
 import { Student } from "../student/student.model"
+import { AcademicSemester } from "../academicSemester/academic.model"
+import { TAcademicSemester } from "../academicSemester/academicSemester.interfece"
+import { generateStudentId } from "./user.utils"
+
 
 const createStudentIntoDB = async ( password:string, studentData: TStudent ) => {
     
@@ -15,11 +19,29 @@ const createStudentIntoDB = async ( password:string, studentData: TStudent ) => 
 
     // if password is not given , then use default password 
      userData.password = password || config.default_password as string
-      
+
+
+
+
+     
+
+
+
+    //  find academic info 
+     const admissionSemester = await AcademicSemester.findById(studentData.admissionSemester)  
+
+     
     //  set user role and id
      userData.role = "student"
-     userData.id = "1787716549"
+    //  userData.id = "1787716549000"
+     userData.id = await generateStudentId(admissionSemester as TAcademicSemester)
+
+    // generateStudentId(admissionSemester as TAcademicSemester)
      
+
+
+
+
     //  create a user 
     const newUser = await User.create(userData) //build in static methods
 
