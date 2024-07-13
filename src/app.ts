@@ -4,6 +4,7 @@ import config from './app/config'
 import { studentRoutes } from './app/modules/student/student.routes'
 import { userRoutes } from './app/modules/user/user.routes'
 import { academicSemesterRoutes } from './app/modules/academicSemester/academicSemester.routes'
+import { academicFacultyRoutes } from './app/modules/academicFaculty/academicFaculty.routes'
 const app = express()
 const port = 3000
 
@@ -16,8 +17,9 @@ app.use(cors())
 // api/v1/students/create-student 
 
 app.use("/api/v1/students", studentRoutes) 
-app.use("/api/v1/users", userRoutes) 
+app.use("/api/v1/users", userRoutes)  
 app.use("/api/v1/academic-semester", academicSemesterRoutes) 
+app.use("/api/v1/academic-faculty", academicFacultyRoutes) 
 
 
 

@@ -21,12 +21,6 @@ const createStudentIntoDB = async ( password:string, studentData: TStudent ) => 
      userData.password = password || config.default_password as string
 
 
-
-
-     
-
-
-
     //  find academic info 
      const admissionSemester = await AcademicSemester.findById(studentData.admissionSemester)  
 
@@ -40,7 +34,7 @@ const createStudentIntoDB = async ( password:string, studentData: TStudent ) => 
      
 
 
-
+   
 
     //  create a user 
     const newUser = await User.create(userData) //build in static methods
