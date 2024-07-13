@@ -4,7 +4,7 @@ import { AnyZodObject } from "zod"
 const validateRequst = (schema:AnyZodObject) => {
 
     return async (req:Request, res:Response, next:NextFunction) => {
-        console.log(req.body)
+        // console.log(req.body)
         // req.body.password,
         // req.body.student,
         
