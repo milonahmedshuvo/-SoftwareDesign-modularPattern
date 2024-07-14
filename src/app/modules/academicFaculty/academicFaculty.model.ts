@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 import { TAcademicFaculty } from "./academicFaculty.interfece";
 
 
@@ -14,4 +14,4 @@ const academicFacultySchema = new Schema<TAcademicFaculty>({
 })
 
 
-export const AcademicFaculty = model<TAcademicFaculty> ("academicFaculty", academicFacultySchema)
+export const AcademicFaculty = model<TAcademicFaculty> ("Academicfaculty", academicFacultySchema)

@@ -42,6 +42,7 @@ const studentSingleData =async (req: Request, res: Response, next:NextFunction) 
       try{
         const {studentId} = req.params
       const result = await studentService.studentSingleData(studentId)
+
       res.status(200).json({
         success: "true",
         message: "get student single query succesfully",
@@ -62,8 +63,8 @@ const studentSingleData =async (req: Request, res: Response, next:NextFunction) 
 
 const deleteStudent = async (req:Request, res: Response, next:NextFunction) => {
       try{
-       const {userId} = req.params
-       const result = await studentService.deletedStudentFromDB(userId)
+       const { studentId } = req.params
+       const result = await studentService.deletedStudentFromDB(studentId)
        res.status(200).json({
         success: "true",
         message: "student succesfully deleted",
@@ -83,9 +84,38 @@ const deleteStudent = async (req:Request, res: Response, next:NextFunction) => {
 
 
 
+
+const updateStudent = async (req:Request, res: Response, next:NextFunction) => {
+
+  try{
+   const { studentId } = req.params;
+   const { student } = req.body
+   
+   const result = await studentService.updateStudentFromDB(studentId, student)
+
+
+   res.status(200).json({
+    success: "true",
+    message: "student succesfully update",
+    data: result
+   })
+
+
+  }catch(err){
+      // res.status(5000).json({
+      //   success: "false",
+      //   message: error.message || "something wrong",
+      //   error: error
+      // })
+      next(err)
+  }
+}
+
+
 export const studentControllers = {
     // createStudent,
     getAllstudent,
     studentSingleData,
-    deleteStudent
+    deleteStudent,
+    updateStudent
 }

@@ -1,5 +1,6 @@
 import { Schema, model, connect } from 'mongoose';
 import {  StudentModel, TGuardian, TLocalGuardian, TStudent, TUserName } from './student.iterface';
+import AppError from '../../error/appError';
 
 
 
@@ -76,7 +77,8 @@ const studentSchema = new Schema < TStudent, StudentModel > ({
         required: true
     },
     profileImg: {type: String },
-    admissionSemester: { type: Schema.Types.ObjectId, ref: "AcademicSemester" },
+    admissionSemester: { type: Schema.Types.ObjectId, ref: "academicSemester" },
+    admissionDepartment: { type: Schema.Types.ObjectId, ref: "AcademicDepartment" },
     isDeleted : {
         type: Boolean,
         default: false
@@ -110,6 +112,24 @@ studentSchema.pre('findOne', async  function (next){
     next()
 })
 
+
+
+// studentSchema.pre('findOneAndUpdate', async function (next){
+     
+    
+//     const query = this.getQuery()
+//     console.log("dsssssd", query)
+
+//      const isExistsStudent = await Student.findOne(query)
+//       console.log("nai data", isExistsStudent)
+
+
+//      if( !isExistsStudent) {
+//         throw new AppError(404, 'dont exists student')
+//      } 
+     
+//  next()
+// })
 
 
 

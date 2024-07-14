@@ -28,6 +28,7 @@ export const userSchema = new Schema <TUser> ({
 
 
 
+
 // creating pre middleware 
 userSchema.pre("save", async function(next){
     // console.log(this, "pre middleware i will save data")

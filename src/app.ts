@@ -28,15 +28,16 @@ app.use("/api/v1/academic-department", academicDepartmentRoutes)
 
 
 
+
 // global error handalar 
 app.use((err:any, req:Request, res:Response, next:NextFunction) => {
     
-  const statusCode = 500
+  const statusCode = err.statusCode || 500
   const message = err.message || "something wrong"
 
 
   res.status(statusCode).json({
-    success: "false and ata globar thke asse",
+    success: "false and globar error!",
     message: message,
     error: err
   })
