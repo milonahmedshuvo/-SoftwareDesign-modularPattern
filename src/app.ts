@@ -6,8 +6,15 @@ import { userRoutes } from './app/modules/user/user.routes'
 import { academicSemesterRoutes } from './app/modules/academicSemester/academicSemester.routes'
 import { academicFacultyRoutes } from './app/modules/academicFaculty/academicFaculty.routes'
 import { academicDepartmentRoutes } from './app/modules/academicDepartment/academicDepartment.routes'
+import { ZodError, ZodIssue } from 'zod'
+import { TErrorSource } from './app/interfece/error.interfece'
+import handaleZodError from './app/error/handleZodError'
+import handleMongooseError from './app/error/handleMongooseError'
+import handleCastError from './app/error/handleCastError'
 const app = express()
 const port = 3000
+
+
 
 // parsers 
 app.use(express.json())
@@ -32,16 +39,48 @@ app.use("/api/v1/academic-department", academicDepartmentRoutes)
 // global error handalar 
 app.use((err:any, req:Request, res:Response, next:NextFunction) => {
     
-  const statusCode = err.statusCode || 500
-  const message = err.message || "something wrong"
+  let statusCode = err.statusCode || 500
+  let message = err.message || "something wrong"
+    
+  
+
+  let errorSource: TErrorSource = [{
+    path: '',
+    message: 'somthing wrong'
+  }]
+
+
+  if( err instanceof ZodError){
+    let simplifiedError = handaleZodError(err)
+    statusCode = simplifiedError?.statusCode
+    message = simplifiedError?.message
+    errorSource = simplifiedError?.errorSource
+  }else if(err.name == 'ValidationError'){
+    let simplifiedMongooseError = handleMongooseError(err)
+    statusCode = simplifiedMongooseError.statusCode
+    message = simplifiedMongooseError.message,
+    errorSource = simplifiedMongooseError.errorSource
+  }else if(err.name == 'CastError'){
+    const simplifiedCastError = handleCastError(err)
+    statusCode = simplifiedCastError.statusCode
+    message = simplifiedCastError.message
+    errorSource = simplifiedCastError.errorSource
+  }
+
 
 
   res.status(statusCode).json({
     success: "false and globar error!",
     message: message,
-    error: err
+    errorSource,
+    stack: config.NODE_ENV =='development'? err?.stack : null, 
+    amimongoose : err
   })
 })
+
+
+
+
 
 
 
