@@ -7,9 +7,10 @@ import catchAsync from "../../utils/catchAsync";
 
 
 const getAllstudent = catchAsync( async (req, res, next) => {
-
+  
+  
   // try{
-    const result = await studentService.getAllstudentFromDB()
+    const result = await studentService.getAllstudentFromDB(req.query)
     res.status(200).json({
       success: "true",
       message: "student is get succesfully",
@@ -86,6 +87,8 @@ const deleteStudent = async (req:Request, res: Response, next:NextFunction) => {
 
 
 const updateStudent = async (req:Request, res: Response, next:NextFunction) => {
+
+    
 
   try{
    const { studentId } = req.params;

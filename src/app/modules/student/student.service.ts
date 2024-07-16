@@ -8,13 +8,84 @@ import { TStudent } from "./student.iterface";
 
 
 
-const getAllstudentFromDB = async () => {
-    const result = await Student.find().populate('admissionSemester').populate({
+
+const getAllstudentFromDB = async (query:Record<string, unknown>) => {
+
+    let queryObj = {...query}
+    
+
+    let searchTerm =''
+
+    if(query?.searchparm){
+          searchTerm = query?.searchTerm as string
+    }
+
+   let searchQuery = Student.find({
+    $or: ['email', 'name.firstName', 'presentAddress', 'id'].map((filed) => ({
+        [filed] : { $regex: searchTerm, $options: 'i' }
+    }))
+})
+
+     
+    const excludeFileds = ['searchTerm', 'sort', 'limit', 'page', 'fields']
+    excludeFileds.forEach((el)=> delete queryObj[el] ) //delete element
+
+
+    console.log({query, queryObj})
+
+    const filterQuery = searchQuery.find(queryObj).populate('admissionSemester').populate({
         path: 'admissionDepartment',
         populate: "academicFaculty"
     })
-    return result
+
+   
+    let sort = '-createdAt'
+    if(query.sort){
+        sort = query.sort as string
+    }
+
+    const sortQuery = filterQuery.sort(sort)
+   
+
+
+
+
+    let limit = 1
+    let page = 1
+    let skip = 0
+    if(query.limit){
+        limit = Number(query.limit) 
+    }
+
+    if(query?.page){
+        page= Number(query.page)
+        skip = (page - 1) * limit
+    }
+
+    //pagination start.....
+    const paginationQuery = sortQuery.skip(skip)
+    const limitQuery = paginationQuery.limit(limit)
+    
+
+
+    // select spisic fields /mane je gulo fields pai
+    let fields = '-_v'
+    if(query?.fields){
+        fields= (query.fields as string).split(',').join(" ")
+    }
+    
+    const fieldsQuery = await limitQuery.select(fields) 
+
+
+
+    return fieldsQuery
 }
+
+
+
+
+
+
 
 const studentSingleData = async (id: string ) => {
     const result = Student.findOne({id: id})

@@ -11,6 +11,7 @@ import { TErrorSource } from './app/interfece/error.interfece'
 import handaleZodError from './app/error/handleZodError'
 import handleMongooseError from './app/error/handleMongooseError'
 import handleCastError from './app/error/handleCastError'
+import AppError from './app/error/appError'
 const app = express()
 const port = 3000
 
@@ -65,6 +66,19 @@ app.use((err:any, req:Request, res:Response, next:NextFunction) => {
     statusCode = simplifiedCastError.statusCode
     message = simplifiedCastError.message
     errorSource = simplifiedCastError.errorSource
+  }else if(err instanceof AppError){
+    statusCode = err?.statusCode
+    message = err.message
+    errorSource= [{
+      path: "",
+      message: err?.message
+    }]
+  }else if (err instanceof Error ) {
+    message = err?.message
+    errorSource = [{
+      path: "",
+      message: err.message
+    }]
   }
 
 
