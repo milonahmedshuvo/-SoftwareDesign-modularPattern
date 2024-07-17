@@ -31,10 +31,16 @@ export const userSchema = new Schema <TUser> ({
 
 // creating pre middleware 
 userSchema.pre("save", async function(next){
+    
+    
+    
     // console.log(this, "pre middleware i will save data")
-    const user= this
-  user.password= await bcrypt.hash(user.password, Number(config.bcrypt_seltsRounds))
-  console.log(config.bcrypt_seltsRounds)
+    // console.log("seltrounds", config.bcrypt_seltsRounds)
+
+//   this.password= await bcrypt.hash(this.password, Number(config.bcrypt_seltsRounds))
+    // console.log('user password', user.password)
+  this.password = await bcrypt.hash(this.password, 17 )
+  
    next()
 })
 
@@ -42,7 +48,7 @@ userSchema.pre("save", async function(next){
 
 // creating next middleware 
 userSchema.post("save", async function(document, next){
-    
+
     // console.log("ducument", document)
     document.password = "security parpose not save password"
     next()

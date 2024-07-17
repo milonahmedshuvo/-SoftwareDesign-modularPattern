@@ -36,10 +36,10 @@ const getAllstudentFromDB = async (query:Record<string, unknown>) => {
 
 //     console.log({query, queryObj})
 
-//     const filterQuery = searchQuery.find(queryObj).populate('admissionSemester').populate({
-//         path: 'admissionDepartment',
-//         populate: "academicFaculty"
-//     })
+    // const filterQuery = searchQuery.find(queryObj).populate('admissionSemester').populate({
+    //     path: 'admissionDepartment',
+    //     populate: "academicFaculty"
+    // })
 
 
 
@@ -90,7 +90,10 @@ const getAllstudentFromDB = async (query:Record<string, unknown>) => {
 
 
 
-const studentQuery = new QueryBuilder(Student.find(), query).search(searchableFields).sort().paginate().fields()
+const studentQuery = new QueryBuilder(Student.find().populate('admissionSemester').populate({
+    path: 'admissionDepartment',
+    populate: "academicFaculty"
+}), query).search(searchableFields).sort().paginate().fields()
 
 const result = await studentQuery.modelQuery 
 

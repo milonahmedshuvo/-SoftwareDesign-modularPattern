@@ -88,8 +88,10 @@ app.use((err:any, req:Request, res:Response, next:NextFunction) => {
     message: message,
     errorSource,
     stack: config.NODE_ENV =='development'? err?.stack : null, 
-    amimongoose : err
+    // amimongoose : err
+    
   })
+
 })
 
 
