@@ -12,6 +12,9 @@ import handaleZodError from './app/error/handleZodError'
 import handleMongooseError from './app/error/handleMongooseError'
 import handleCastError from './app/error/handleCastError'
 import AppError from './app/error/appError'
+import { adminRoutes } from './app/modules/Admin/admin.routes'
+import { facultyRoutes } from './app/modules/Faculty/faculty.routes'
+import { courseRoutes } from './app/modules/Course/course.routes'
 const app = express()
 const port = 3000
 
@@ -31,6 +34,14 @@ app.use("/api/v1/academic-semester", academicSemesterRoutes)
 app.use("/api/v1/academic-faculty", academicFacultyRoutes) 
 app.use("/api/v1/academic-department", academicDepartmentRoutes) 
 
+app.use("/api/v1/admin", adminRoutes)
+app.use("/api/v1/faculty", facultyRoutes)
+
+//creaking processing....
+
+app.use("/api/v1/courses", courseRoutes)
+
+
 
 
 
@@ -42,13 +53,13 @@ app.use((err:any, req:Request, res:Response, next:NextFunction) => {
     
   let statusCode = err.statusCode || 500
   let message = err.message || "something wrong"
-    
-  
-
   let errorSource: TErrorSource = [{
     path: '',
     message: 'somthing wrong'
   }]
+
+
+
 
 
   if( err instanceof ZodError){

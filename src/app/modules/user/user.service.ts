@@ -205,8 +205,10 @@ const createAdminIntoDB = async (password: string, payload: TFaculty) => {
     //set  generated id
     userData.id = await generatedAdminID();
 
+   
     // create a user (transaction-1)
     const newUser = await User.create([userData], { session }); 
+    console.log({newUser})
 
     //create a admin
     if (!newUser.length) {

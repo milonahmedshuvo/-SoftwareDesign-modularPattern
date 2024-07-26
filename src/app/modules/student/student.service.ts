@@ -3,8 +3,10 @@ import { Student } from "./student.model";
 import AppError from "../../error/appError";
 import { User } from "../user/user.model";
 import { TStudent } from "./student.iterface";
-import QueryBuilder from "../../builder/queryBuilder";
 import { searchableFields } from "./student.constant";
+import QueryBuilder from "../../builder/queryBuilder";
+
+
 
 
 
@@ -109,9 +111,13 @@ return result
 
 
 const studentSingleData = async (id: string ) => {
-    const result = Student.findOne({id: id})
+    const result = Student.findById( id )
     return result
 }
+
+
+
+
 
 
 const deletedStudentFromDB = async (id: string) => {
@@ -122,8 +128,8 @@ const deletedStudentFromDB = async (id: string) => {
       try{
         session.startTransaction()
 
-        const studentDeleted = await Student.findOneAndUpdate(
-            {id: id}, 
+        const studentDeleted = await Student.findByIdAndUpdate(
+            id, 
             {isDeleted: true},
             {new: true, session}
         )
@@ -132,11 +138,12 @@ const deletedStudentFromDB = async (id: string) => {
            throw new AppError(400, 'Filed delete student')
         }
 
+    //    get user id from student deleted 
+        const userId = studentDeleted.user
 
 
-
-        const userDeleted = await User.findOneAndUpdate( 
-            {id:id},
+        const userDeleted = await User.findByIdAndUpdate( 
+            userId,
             {isDeleted: true},
             {new: true, session}
         )
@@ -191,7 +198,7 @@ const updateStudentFromDB = async (id: string, payload:Partial<TStudent>) => {
 
 
     // console.log(modifiedUpdateData)
-    const result = Student.findOneAndUpdate({id:id}, modifiedUpdateData, {new:true, runValidators: true})
+    const result = Student.findByIdAndUpdate(id , modifiedUpdateData, {new:true, runValidators: true})
     return result
 }
 
