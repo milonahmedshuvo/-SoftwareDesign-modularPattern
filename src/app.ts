@@ -15,6 +15,7 @@ import AppError from './app/error/appError'
 import { adminRoutes } from './app/modules/Admin/admin.routes'
 import { facultyRoutes } from './app/modules/Faculty/faculty.routes'
 import { courseRoutes } from './app/modules/Course/course.routes'
+import { semesterRegistrationRoutes } from './app/modules/semesterRegistration/semesterRegistration.routes'
 const app = express()
 const port = 3000
 
@@ -37,10 +38,12 @@ app.use("/api/v1/academic-department", academicDepartmentRoutes)
 app.use("/api/v1/admin", adminRoutes)
 app.use("/api/v1/faculty", facultyRoutes)
 
-//creaking processing....
-
 app.use("/api/v1/courses", courseRoutes)
 
+
+//creaking processing....
+
+app.use("/api/v1/semesterRegistration", semesterRegistrationRoutes)
 
 
 
