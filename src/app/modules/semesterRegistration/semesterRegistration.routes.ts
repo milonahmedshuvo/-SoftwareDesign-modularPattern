@@ -10,7 +10,7 @@ router.post('/create',validateRequst(semesterRegistrationValidations.createSemes
 
 router.get('/all', semesterRegistrationControllers.getAllSemesterRegistration)
 router.get('/single/:id', semesterRegistrationControllers.getSingleSemesterRegistration)
-
+router.patch('/update/:id', validateRequst(semesterRegistrationValidations.updateSemesterRegistrationValidationSchema), semesterRegistrationControllers.updateSemesterRegistration)
 
 
 export const semesterRegistrationRoutes = router

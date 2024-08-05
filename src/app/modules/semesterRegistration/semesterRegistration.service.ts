@@ -1,9 +1,11 @@
-import app from "../../../app";
 import QueryBuilder from "../../builder/queryBuilder";
 import AppError from "../../error/appError";
 import { AcademicSemester } from "../academicSemester/academic.model";
+import { RegistrationStatus } from "./semesterRegistration.constant";
 import { TSemesterRegistration } from "./semesterRegistration.interface";
 import { SemesterRegistration } from "./semesterRegistration.model";
+
+
 
 const createSemesterRegistrationIntoDB = async (payload:TSemesterRegistration) => {
    const academicSemester = payload.academicSemester
@@ -30,8 +32,8 @@ const createSemesterRegistrationIntoDB = async (payload:TSemesterRegistration) =
 
     const isStatusUpcomingAndOngoingExists = await SemesterRegistration.findOne( { 
         $or: [
-            {status: "UPCOMING"},
-            {status: "ONGOING"}
+            {status: RegistrationStatus.UPCOMING},
+            {status: RegistrationStatus.ONGOING}
         ]
      } )
 
@@ -64,7 +66,7 @@ const getAllSemesterRegistrationFromDB = async (query: Record<string, unknown>) 
 
 
 const getSingleSemesterRegistrationFromDB = async (id: string) => {  
-      const result = await SemesterRegistration.findById(id)
+      const result = await SemesterRegistration.findById(id).populate('academicSemester')
       return result
 }
 
@@ -72,8 +74,45 @@ const getSingleSemesterRegistrationFromDB = async (id: string) => {
 
 
 
+const updateSemesterRegistrationIntoDB =  async (id: string, payload:Partial<TSemesterRegistration> ) => {
+
+
+    const isExistsSemesterRegistration = await SemesterRegistration.findById(id)
+
+    if(!isExistsSemesterRegistration){
+        throw new AppError(400, 'Semester registration not found')
+    }
+
+    const requestStatus = payload.status
+    const currentSemesterStatus = isExistsSemesterRegistration.status
+    
+    if( currentSemesterStatus === RegistrationStatus.ENDED){
+        throw new AppError(400, `This semester already ${currentSemesterStatus}`)
+    }
+
+
+
+
+    // process fllow line by line  upcoming > ongoing > ended 
+     
+    if(currentSemesterStatus === RegistrationStatus.UPCOMING && requestStatus === RegistrationStatus.ENDED){
+        throw new AppError(400, `You can not change from ${currentSemesterStatus} to ${requestStatus}`)
+    }
+
+
+    if(currentSemesterStatus === RegistrationStatus.ONGOING && requestStatus === RegistrationStatus.UPCOMING){
+        throw new AppError(400, `You can not change from ${currentSemesterStatus} to ${requestStatus}`)
+    }
+
+
+
+    const result = await SemesterRegistration.findByIdAndUpdate(id, payload, {new: true})
+    return result
+}
+
 export const semesterRegistrationServices = {
     createSemesterRegistrationIntoDB,
     getAllSemesterRegistrationFromDB,
-    getSingleSemesterRegistrationFromDB
+    getSingleSemesterRegistrationFromDB,
+    updateSemesterRegistrationIntoDB
 }

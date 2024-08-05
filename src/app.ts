@@ -16,6 +16,7 @@ import { adminRoutes } from './app/modules/Admin/admin.routes'
 import { facultyRoutes } from './app/modules/Faculty/faculty.routes'
 import { courseRoutes } from './app/modules/Course/course.routes'
 import { semesterRegistrationRoutes } from './app/modules/semesterRegistration/semesterRegistration.routes'
+import { OfferedCourseRoutes } from './app/modules/OfferedCourse/OfferedCourse.routes'
 const app = express()
 const port = 3000
 
@@ -40,11 +41,11 @@ app.use("/api/v1/faculty", facultyRoutes)
 
 app.use("/api/v1/courses", courseRoutes)
 
+app.use("/api/v1/semesterRegistration", semesterRegistrationRoutes)
 
 //creaking processing....
 
-app.use("/api/v1/semesterRegistration", semesterRegistrationRoutes)
-
+app.use("/api/v1/offered-course",OfferedCourseRoutes)
 
 
 

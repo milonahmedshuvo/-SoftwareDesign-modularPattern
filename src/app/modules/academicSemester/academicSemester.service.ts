@@ -2,6 +2,9 @@ import { AcademicSemesterNameCodeMapper } from "./academic.constant";
 import { AcademicSemester } from "./academic.model";
 import { TAcademicSemester } from "./academicSemester.interfece";
 
+
+
+
 const createAcademicSemesterFromDB = async (payload:TAcademicSemester) => {
 
     
@@ -38,6 +41,8 @@ const updateAcademicSemesterFromDB = async (id: string, payload:Partial<TAcademi
 
     return result
 }
+
+
 
 
 

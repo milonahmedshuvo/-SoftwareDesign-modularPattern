@@ -60,20 +60,21 @@ const updateCourseIntoDB = async (id:string, payload:TCourse) => {
 
     //  step=1 basic update course info 
     const updateBasicInfoCourse = await Course.findByIdAndUpdate(id, remaingCourseData, {new: true, runValidators: true, session })
-     
+    //  console.log({updateBasicInfoCourse})
+
     if(!updateBasicInfoCourse){
         throw new AppError(400, 'Failed to update course')
     }
     
 
 
- 
+    
 
 
     // if we have proRequisite course and want to update and delete 
     if(preRequisiteCourses && preRequisiteCourses.length){
         
-        //  if get course id and true then delete from database 
+        //  if get course id and status true then delete from database 
 
         const deletedPreRequisite = preRequisiteCourses.filter(el=> el.course && el.isDeleted ).map(el=> el.course)
         const deletedPreRequisiteCourses = await Course.findByIdAndUpdate(
@@ -81,6 +82,8 @@ const updateCourseIntoDB = async (id:string, payload:TCourse) => {
             {$pull: { preRequisiteCourses: { course: {$in: deletedPreRequisite} } }},
             {new: true, runValidators: true, session}        
         )
+
+        // console.log({deletedPreRequisiteCourses})
 
          if(!deletedPreRequisiteCourses){
             throw new AppError(400, 'Failed to update course')
@@ -103,6 +106,7 @@ const updateCourseIntoDB = async (id:string, payload:TCourse) => {
      if(!newPreRequisitesCoursesAdd){
         throw new AppError(400, 'Failed to update course')
      }
+    //  console.log({newPreRequisitesCoursesAdd})
     
 
      
@@ -141,7 +145,7 @@ const assignFacultiesWithCourseIntoDB = async (id: string, payload: Partial<TCou
     const result = await courseFaculty.findByIdAndUpdate(
         id,
         {   
-    
+            course: id,  
             $addToSet: {faculties: {$each: payload} } 
         },
         { upsert: true, new: true }

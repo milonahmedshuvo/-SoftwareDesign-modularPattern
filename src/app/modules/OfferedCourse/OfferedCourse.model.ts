@@ -1,0 +1,71 @@
+
+import { model, Schema } from "mongoose";
+import { TOfferedCourse } from "./OfferedCourse.interface";
+import { Days } from "./OfferedCourse.constant";
+
+
+
+
+
+
+const OfferedCourseSchema = new Schema<TOfferedCourse>({
+   semesterRegistration: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    unique: true
+   },
+   academicSemester: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    unique: true
+   },
+   academicFaculty: {
+    type:Schema.Types.ObjectId,
+    required: true,
+    unique: true
+   },
+   academicDepartment: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    unique: true
+   },
+   course: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    unique: true
+   },
+   faculty: {
+    type : Schema.Types.ObjectId,
+    required: true,
+    unique: true
+   },
+   maxCapacity: {
+    type: Number,
+    required: true
+   },
+   section: {
+    type: Number,
+    required: true
+   },
+   days: [
+    {
+      type: String,
+      enum: Days
+    }
+   ],
+   startTime: {
+    type: String,
+    required: true
+   },
+   endTime: {
+    type: String,
+    required: true
+   }
+
+})
+
+
+
+
+
+export const OfferedCourse = model<TOfferedCourse>('OfferedCourse', OfferedCourseSchema)
