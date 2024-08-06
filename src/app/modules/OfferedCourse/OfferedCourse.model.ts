@@ -12,32 +12,32 @@ const OfferedCourseSchema = new Schema<TOfferedCourse>({
    semesterRegistration: {
     type: Schema.Types.ObjectId,
     required: true,
-    unique: true
+    ref: 'SemesterRegistration'
    },
    academicSemester: {
     type: Schema.Types.ObjectId,
     required: true,
-    unique: true
+    ref: 'academicSemester'
    },
    academicFaculty: {
     type:Schema.Types.ObjectId,
     required: true,
-    unique: true
+    ref: 'Academicfaculty'
    },
    academicDepartment: {
     type: Schema.Types.ObjectId,
     required: true,
-    unique: true
+    ref: 'AcademicDepartment'
    },
    course: {
     type: Schema.Types.ObjectId,
     required: true,
-    unique: true
+    ref: 'CourseFaculty'
    },
    faculty: {
     type : Schema.Types.ObjectId,
     required: true,
-    unique: true
+    ref: 'Faculty'
    },
    maxCapacity: {
     type: Number,

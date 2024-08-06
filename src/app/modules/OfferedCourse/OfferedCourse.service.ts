@@ -1,3 +1,4 @@
+import app from "../../../app";
 import AppError from "../../error/appError";
 import { AcademicDepartment } from "../academicDepartment/academicDepartment.model";
 import { AcademicFaculty } from "../academicFaculty/academicFaculty.model";
@@ -13,7 +14,7 @@ import { OfferedCourse } from "./OfferedCourse.model";
 
 const createOfferedCourseIntoDB = async (payload:TOfferedCourse) => {
       
-      const {semesterRegistration, academicFaculty, academicDepartment, course, faculty} = payload;
+      const {semesterRegistration, academicFaculty, academicDepartment, course, faculty, section } = payload;
 
       const isSemesterRegistrationExits = await SemesterRegistration.findById(semesterRegistration)
 
@@ -54,6 +55,29 @@ const createOfferedCourseIntoDB = async (payload:TOfferedCourse) => {
 
 
 
+
+
+    //  if dose not exits academic faculty id in academic department 
+    const isDepartmentBelongToFaculty = await AcademicDepartment.findOne({
+        _id: academicDepartment,
+        academicFaculty
+    })
+
+    if(!isDepartmentBelongToFaculty){
+        throw new AppError(400, `This ${isAcademicDepartmentExits.name} is not blong faculty ( ${isAcademicFacultyExits.name})`)
+    }
+
+
+
+    const isSameOfferedCourseExistsWithSameRegisteredSemesterWithSameSection = await OfferedCourse.findOne({
+        semesterRegistration,
+        course,
+        section
+    })
+
+    if(isSameOfferedCourseExistsWithSameRegisteredSemesterWithSameSection){
+        throw new AppError(400, 'Offered course with same section is already exist!')
+    }
 
 
     const result = await OfferedCourse.create({...payload, academicSemester})
