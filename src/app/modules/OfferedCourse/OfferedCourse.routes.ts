@@ -7,9 +7,10 @@ const router = express.Router()
 
 
 router.post('/create',validateRequst(offeredCourseValidation.createOfferedCourseValidationSchema),OfferedCourseController.createOfferedCourse)
-
-
-
+router.get('/all', OfferedCourseController.getAllOfferedCourse)
+router.get('/single/:id', OfferedCourseController.getSingleOfferedCourse)
+router.patch('/update/:id', validateRequst(offeredCourseValidation.updateOfferedCourseValidationSchema), OfferedCourseController.updateSingleOfferedCourse)
+router.delete('/delete/:id', OfferedCourseController.deleteSingleOfferedCourse)
 
 
 

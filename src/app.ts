@@ -17,6 +17,7 @@ import { facultyRoutes } from './app/modules/Faculty/faculty.routes'
 import { courseRoutes } from './app/modules/Course/course.routes'
 import { semesterRegistrationRoutes } from './app/modules/semesterRegistration/semesterRegistration.routes'
 import { OfferedCourseRoutes } from './app/modules/OfferedCourse/OfferedCourse.routes'
+import { AuthRoutes } from './app/modules/Auth/auth.routes'
 const app = express()
 const port = 3000
 
@@ -46,7 +47,7 @@ app.use("/api/v1/semesterRegistration", semesterRegistrationRoutes)
 //creaking processing....
 
 app.use("/api/v1/offered-course",OfferedCourseRoutes)
-
+app.use("/api/v1/authentication", AuthRoutes)
 
 
 

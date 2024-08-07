@@ -9,6 +9,7 @@ export default{
     port: process.env.PORT,
     database_url : process.env.DATABASE_URL,
     bcrypt_seltsRounds: process.env.BCRYPT_SELTROUNTS,
-    default_password: process.env.DEFAULT_PASSWORD
+    default_password: process.env.DEFAULT_PASSWORD,
+    jwt_access_token: process.env.JWE_ACCESS_TOKEN
 }
 
