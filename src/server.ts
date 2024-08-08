@@ -32,7 +32,7 @@ async function main() {
 
 // asyncrons code handle 
 process.on('unhandledRejection', () => {
-    console.log('unhandledRejection is detected, shutting down..')
+    console.log('asyncronus unhandledRejection is detected, shutting down..')
 
     if(server){
         server.close(()=> {
@@ -50,7 +50,7 @@ process.on('unhandledRejection', () => {
 
 // syncronus code handle 
 process.on('uncaughtException', () => {
-    console.log('uncaughtException is detected, shutting down..')
+    console.log('syncrounus uncaughtException is detected, shutting down..')
     process.exit(1)
 })
 

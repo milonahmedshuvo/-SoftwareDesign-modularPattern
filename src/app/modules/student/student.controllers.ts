@@ -8,6 +8,7 @@ import catchAsync from "../../utils/catchAsync";
 
 const getAllstudent = catchAsync( async (req, res, next) => {
   
+  console.log({"student decoded in requst": req.user})
   
   // try{
     const result = await studentService.getAllstudentFromDB(req.query)

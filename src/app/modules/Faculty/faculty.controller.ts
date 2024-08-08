@@ -5,7 +5,8 @@ import { facultyService } from "./faculty.service";
 
 
 const getAllFaculty = catchAsync(async (req, res, next ) => {
- 
+  // console.log(" faculty text:", req.user)
+
     const result = await facultyService.getAllFacultyFromDB(req.query)
 
     sendResponse(res, {
@@ -51,7 +52,8 @@ const updateSingleFaculty = catchAsync(async (req, res, next ) => {
 
 
 const deleteSingleFaculty = catchAsync(async (req, res, next ) => {
- 
+      
+
       const {id } = req.params
 
       const result = await facultyService.deletSingleFacultyFromDB(id)

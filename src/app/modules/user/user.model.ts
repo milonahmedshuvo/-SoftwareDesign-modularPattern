@@ -7,7 +7,11 @@ import config from "../../config";
 
 export const userSchema = new Schema <TUser, UserModel> ({
     id: {type:String, required: true, unique: true},
-    password: { type: String, required: true },
+    password: { 
+        type: String, 
+        required: true,
+        select: 0
+    },
     needsPasswordChange: { type: Boolean, default: true },
     role: { 
         type : String,
@@ -61,8 +65,11 @@ userSchema.post("save", async function(document, next){
 // check user in batabase by statics methods 
 
 userSchema.statics.isUserExistsByCustomId = async function (id:string) {
-     return await User.findOne({id})
+    const result = await User.findOne({id}).select('+password')
+    // console.log({result})
+    return result
 }
+
 
 
 // check match password in database by statics methods 
